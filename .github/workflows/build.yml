@@ -1,0 +1,62 @@
+name: Build & release
+ 
+on:
+  release:
+    types: [published]
+    workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Cordova
+      run: npm install -g cordova
+
+    - name: Add Android platform
+      run: npx cordova platform add android@14.0.1
+
+    - name: Build Android release
+      run: npx cordova build android --release -- --packageType=apk
+
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      id: sign_app
+      with:
+        releaseDir: platforms/android/app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
+        alias: ${{ secrets.ANDROID_KEY_ALIAS }}
+        keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: snowdrop-release
+        path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ steps.sign_app.outputs.signedReleaseFile }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

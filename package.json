@@ -1,0 +1,22 @@
+{
+  "name": "ru.forbirdden.thesnowdropmessenger",
+  "displayName": "Snowdrop",
+  "version": "1.0.0",
+  "description": "The best (w)RAC-based messenger",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "cordova prepare",
+    "build": "cordova build android",
+    "run-android": "cordova run android"
+  },
+  "keywords": ["ecosystem:cordova"],
+  "author": "Forbirdden",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "cordova": "^12.0.0",
+    "cordova-android": "^14.0.1"
+  },
+  "cordova": {
+    "platforms": ["android"]
+  }
+}
