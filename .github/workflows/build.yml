@@ -24,9 +24,13 @@ jobs:
         node-version: '20'
         cache: 'npm'
 
-    - name: Install dependencies
+    - name: Fix cordova-build №1
       run: cordova platform rm android
+
+    - name: Fix cordova-build №2
       run: cordova platform add android
+
+    - name: Install dependencies
       run: npm ci
 
     - name: Install Cordova
