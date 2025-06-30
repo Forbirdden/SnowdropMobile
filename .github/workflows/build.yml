@@ -38,16 +38,6 @@ jobs:
     - name: Build Android release
       run: npx cordova build android --release -- --packageType=apk
 
-    - name: Sign APK
-      uses: r0adkll/sign-android-release@v1
-      id: sign_app
-      with:
-        releaseDir: platforms/android/app/build/outputs/apk/release
-        signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
-        alias: ${{ secrets.ANDROID_KEY_ALIAS }}
-        keyStorePassword: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
