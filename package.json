@@ -9,7 +9,9 @@
     "build": "cordova build android",
     "run-android": "cordova run android"
   },
-  "keywords": ["ecosystem:cordova"],
+  "keywords": [
+    "ecosystem:cordova"
+  ],
   "author": "Forbirdden",
   "license": "AGPL-3.0",
   "devDependencies": {
@@ -17,6 +19,8 @@
     "cordova-android": "^14.0.1"
   },
   "cordova": {
-    "platforms": ["android"]
+    "platforms": [
+      "android"
+    ]
   }
 }
